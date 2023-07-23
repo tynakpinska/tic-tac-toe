@@ -6,9 +6,21 @@
 
 body {
   background-color: blanchedalmond;
+  height: 100vh;
+  padding: 10px;
+  color: #1397f0;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  color: #D907D9;
 }
 
 .gameboard {
+  padding-top: 20vh;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -17,7 +29,7 @@ body {
 }
 
 .box {
-  border: 1px solid black;
+  border: 1px solid #1397f0;
   height: 100px;
   cursor: pointer;
   display: flex;
