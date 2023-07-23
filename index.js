@@ -1,5 +1,6 @@
 const gameboardElement = document.querySelector(".gameboard");
 const currentPlayerElement = document.querySelector(".currentPlayer");
+const resetButtonElement = document.querySelector(".resetButton");
 
 const Player = (name, sign) => {
   const play = id => Gameboard.updateGameboard(id, sign);
@@ -10,7 +11,7 @@ const player1 = Player("Tyna", "X");
 const player2 = Player("Rek", "O");
 
 const Gameboard = (() => {
-  const gameboard = ["", "", "", "", "", "", "", "", ""];
+  let gameboard = ["", "", "", "", "", "", "", "", ""];
   let currentPlayer = player1;
   currentPlayerElement.innerHTML = `${currentPlayer.name} - ${currentPlayer.sign}`;
   const buildGameboard = () => {
@@ -31,14 +32,25 @@ const Gameboard = (() => {
   };
   const updateGameboard = (id, sign) => {
     gameboard[id] = sign;
-    resetGameboard();
+    deleteGameboard();
     buildGameboard();
     toggleCurrentPlayer();
   };
-  const resetGameboard = () => (gameboardElement.innerHTML = "");
+  const resetGameboard = () => {
+    deleteGameboard();
+    gameboard = ["", "", "", "", "", "", "", "", ""];
+    buildGameboard();
+  };
+
+  const deleteGameboard = () => {
+    gameboardElement.innerHTML = "";
+  };
   buildGameboard();
 
   return {
     updateGameboard,
+    resetGameboard,
   };
 })();
+
+resetButtonElement.addEventListener("click", Gameboard.resetGameboard);

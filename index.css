@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -7,8 +8,13 @@
 body {
   background-color: blanchedalmond;
   height: 100vh;
-  padding: 10px;
+  padding: 10vh;
   color: #1397f0;
+  font-family: "Cabin", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
 
 h1 {
@@ -16,12 +22,10 @@ h1 {
 }
 
 p {
-  color: #D907D9;
+  color: #d907d9;
 }
 
 .gameboard {
-  padding-top: 20vh;
-  margin: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -40,4 +44,14 @@ p {
 
 .box:hover {
   background-color: rgb(246, 192, 112);
+}
+
+button {
+  border: none;
+  color: rgb(245, 237, 225);
+  background-color: #42a7ea;
+  padding: 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-top: 50px;
 }
