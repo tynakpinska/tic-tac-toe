@@ -30,20 +30,41 @@ p {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   width: 300px;
+  gap: 5px;
+  background-color: #42a7ea;
+}
+
+.players {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.player {
+  padding: 5px;
+}
+
+.current {
+  border: 2px solid #d907d9;
+  border-radius: 3px;
 }
 
 .box {
-  border: 1px solid #1397f0;
   height: 100px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
+  background-color: #ffebcd;
 }
 
 .box:hover {
   background-color: rgb(246, 192, 112);
+}
+
+.result {
+  height: 30px;
 }
 
 button {
@@ -53,5 +74,5 @@ button {
   padding: 20px;
   border-radius: 20px;
   font-weight: bold;
-  margin-top: 50px;
+  margin-top: 20px;
 }
