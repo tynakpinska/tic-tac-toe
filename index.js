@@ -95,8 +95,8 @@ const Gameboard = (() => {
       fillGameboard();
       if (checkIfWin())
         resultElement.innerHTML = `${currentPlayer.name} (${sign}) wins!`;
-      if (checkIfTie()) resultElement.innerHTML = `It's a tie!`;
-      toggleCurrentPlayer();
+      else if (checkIfTie()) resultElement.innerHTML = `It's a tie!`;
+      else toggleCurrentPlayer();
     }
   };
 
