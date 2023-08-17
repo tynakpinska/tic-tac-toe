@@ -1,15 +1,18 @@
-const gameboardElement = document.querySelector(".gameboard");
+const boxElements = document.querySelectorAll(".box");
 const playersElements = document.querySelectorAll(".player");
+const lineElement = document.querySelector(".line");
 const resultElement = document.querySelector(".result");
 const resetButtonElement = document.querySelector(".resetButton");
 
 const Player = (name, sign) => {
-  const play = id => Gameboard.updateGameboard(id, sign);
+  const play = id => Gameboard.updateGameboardArray(id, sign);
   return { name, sign, play };
 };
 
 const player1 = Player("Tyna", "X");
 const player2 = Player("Rek", "O");
+
+// add ability of setting player's names for user
 
 playersElements[0].innerHTML = `${player1.name} - ${player1.sign}`;
 playersElements[1].innerHTML = `${player2.name} - ${player2.sign}`;
@@ -18,17 +21,14 @@ const Gameboard = (() => {
   let gameboard = ["", "", "", "", "", "", "", "", ""];
   let currentPlayer = player1;
   playersElements[0].classList.add("current");
+  const playing = id => event => currentPlayer.play(id);
+  boxElements.forEach((box, id) =>
+    box.addEventListener("click", playing(id), true)
+  );
 
-  const buildGameboard = () => {
+  const fillGameboard = () => {
     gameboard.forEach((box, id) => {
-      const boxElement = document.createElement("div");
-      boxElement.innerHTML = box;
-      boxElement.className = "box";
-      boxElement.id = id;
-      gameboardElement.append(boxElement);
-      if (box === "") {
-        boxElement.addEventListener("click", () => currentPlayer.play(id));
-      }
+      boxElements[id].innerHTML = box;
     });
   };
 
@@ -72,29 +72,32 @@ const Gameboard = (() => {
   };
 
   const resetGameboard = () => {
-    deleteGameboard();
     gameboard = ["", "", "", "", "", "", "", "", ""];
     resultElement.innerHTML = "";
-    buildGameboard();
   };
 
-  const deleteGameboard = () => {
-    gameboardElement.innerHTML = "";
-  };
-  buildGameboard();
-
-  const updateGameboard = (id, sign) => {
-    gameboard[id] = sign;
-    deleteGameboard();
-    buildGameboard();
-    const ifWin = checkIfWin();
-    ifWin ? (resultElement.innerHTML = `${sign} wins!`) : toggleCurrentPlayer();
+  const updateGameboardArray = (id, sign) => {
+    if (gameboard[id] === "" && resultElement.innerHTML === "") {
+      gameboard[id] = sign;
+      fillGameboard();
+      checkIfWin()
+        ? (resultElement.innerHTML = `${sign} wins!`)
+        : toggleCurrentPlayer();
+    }
+    // draw a line
+    // check if tie
   };
 
   return {
-    updateGameboard,
+    fillGameboard,
+    updateGameboardArray,
     resetGameboard,
   };
 })();
 
-resetButtonElement.addEventListener("click", Gameboard.resetGameboard);
+Gameboard.fillGameboard();
+
+resetButtonElement.addEventListener("click", () => {
+  Gameboard.resetGameboard();
+  Gameboard.fillGameboard();
+});
