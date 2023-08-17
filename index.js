@@ -1,5 +1,6 @@
 const boxElements = document.querySelectorAll(".box");
 const playersElements = document.querySelectorAll(".player");
+const playersInputs = document.querySelectorAll(".playerInput");
 const lineElement = document.querySelector(".line");
 const resultElement = document.querySelector(".result");
 const resetButtonElement = document.querySelector(".resetButton");
@@ -9,13 +10,17 @@ const Player = (name, sign) => {
   return { name, sign, play };
 };
 
-const player1 = Player("Tyna", "X");
-const player2 = Player("Rek", "O");
+let player1 = Player("Tyna", "X");
+let player2 = Player("Rek", "O");
 
-// add ability of setting player's names for user
+playersInputs[0].value = player1.name;
+playersInputs[1].value = player2.name;
 
-playersElements[0].innerHTML = `${player1.name} - ${player1.sign}`;
-playersElements[1].innerHTML = `${player2.name} - ${player2.sign}`;
+playersInputs.forEach((player, id) =>
+  player.addEventListener("change", e => {
+    eval(`player${id + 1}`).name = e.target.value;
+  })
+);
 
 const Gameboard = (() => {
   let gameboard = ["", "", "", "", "", "", "", "", ""];
@@ -81,6 +86,7 @@ const Gameboard = (() => {
   const resetGameboard = () => {
     gameboard = ["", "", "", "", "", "", "", "", ""];
     resultElement.innerHTML = "";
+    lineElement.style.display = "none";
   };
 
   const updateGameboardArray = (id, sign) => {
@@ -92,7 +98,6 @@ const Gameboard = (() => {
       if (checkIfTie()) resultElement.innerHTML = `It's a tie!`;
       toggleCurrentPlayer();
     }
-    // draw a line
   };
 
   return {

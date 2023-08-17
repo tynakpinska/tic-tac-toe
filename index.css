@@ -42,7 +42,6 @@ p {
   background-color: #727272;
   position: absolute;
   top: 50%;
-
 }
 
 .players {
@@ -52,7 +51,16 @@ p {
 }
 
 .player {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding-right: 5px;
+}
+
+.playerInput {
   padding: 5px;
+  
 }
 
 .current {
