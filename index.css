@@ -37,11 +37,8 @@ p {
 
 .line {
   display: none;
-  width: 300px;
-  height: 5px;
   background-color: #727272;
   position: absolute;
-  top: 50%;
 }
 
 .players {
@@ -59,8 +56,8 @@ p {
 }
 
 .playerInput {
+  width: 100px;
   padding: 5px;
-  
 }
 
 .current {

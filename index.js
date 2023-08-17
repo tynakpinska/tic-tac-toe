@@ -38,7 +38,7 @@ const Gameboard = (() => {
   };
 
   const checkIfWin = () => {
-    if (
+    /*   if (
       (gameboard[0] === gameboard[1] &&
         gameboard[1] === gameboard[2] &&
         gameboard[2] !== "") ||
@@ -64,12 +64,106 @@ const Gameboard = (() => {
         gameboard[4] === gameboard[6] &&
         gameboard[6] !== "")
     ) {
-      lineElement.style.display = "block";
       // add displaying line at accurate position
       return true;
     } else {
       return false;
+    } */
+
+    if (
+      gameboard[0] === gameboard[1] &&
+      gameboard[1] === gameboard[2] &&
+      gameboard[2] !== ""
+    ) {
+      lineElement.style.width = "300px";
+      lineElement.style.height = "5px";
+      lineElement.style.top = "15%";
+      return true;
     }
+
+    if (
+      gameboard[3] === gameboard[4] &&
+      gameboard[4] === gameboard[5] &&
+      gameboard[5] !== ""
+    ) {
+      lineElement.style.width = "300px";
+      lineElement.style.height = "5px";
+      lineElement.style.top = "50%";
+      return true;
+    }
+
+    if (
+      gameboard[6] === gameboard[7] &&
+      gameboard[7] === gameboard[8] &&
+      gameboard[8] !== ""
+    ) {
+      console.log("to");
+      lineElement.style.width = "300px";
+      lineElement.style.height = "5px";
+      lineElement.style.top = "83%";
+      return true;
+    }
+
+    if (
+      gameboard[0] === gameboard[3] &&
+      gameboard[3] === gameboard[6] &&
+      gameboard[6] !== ""
+    ) {
+      lineElement.style.width = "5px";
+      lineElement.style.height = "300px";
+      lineElement.style.left = "15%";
+      return true;
+    }
+
+    if (
+      gameboard[1] === gameboard[4] &&
+      gameboard[4] === gameboard[7] &&
+      gameboard[7] !== ""
+    ) {
+      lineElement.style.width = "5px";
+      lineElement.style.height = "300px";
+      lineElement.style.left = "50%";
+      return true;
+    }
+
+    if (
+      gameboard[2] === gameboard[5] &&
+      gameboard[5] === gameboard[8] &&
+      gameboard[8] !== ""
+    ) {
+      lineElement.style.width = "5px";
+      lineElement.style.height = "300px";
+      lineElement.style.left = "83%";
+      return true;
+    }
+
+    if (
+      gameboard[0] === gameboard[4] &&
+      gameboard[4] === gameboard[8] &&
+      gameboard[8] !== ""
+    ) {
+      lineElement.style.width = "5px";
+      lineElement.style.height = "350px";
+      lineElement.style.top = "-5%";
+      lineElement.style.left = "52%";
+      lineElement.style.transform = "rotate(-45deg)";
+      return true;
+    }
+
+    if (
+      gameboard[2] === gameboard[4] &&
+      gameboard[4] === gameboard[6] &&
+      gameboard[6] !== ""
+    ) {
+      lineElement.style.width = "5px";
+      lineElement.style.height = "350px";
+      lineElement.style.top = "-5%";
+      lineElement.style.left = "47%";
+      lineElement.style.transform = "rotate(45deg)";
+      return true;
+    }
+
+    return false;
   };
 
   const checkIfTie = () => {
@@ -86,6 +180,11 @@ const Gameboard = (() => {
   const resetGameboard = () => {
     gameboard = ["", "", "", "", "", "", "", "", ""];
     resultElement.innerHTML = "";
+    lineElement.style.width = "0";
+    lineElement.style.height = "0";
+    lineElement.style.left = "0";
+    lineElement.style.top = "0";
+    lineElement.style.transform = "rotate(0)";
     lineElement.style.display = "none";
   };
 
@@ -93,9 +192,10 @@ const Gameboard = (() => {
     if (gameboard[id] === "" && resultElement.innerHTML === "") {
       gameboard[id] = sign;
       fillGameboard();
-      if (checkIfWin())
+      if (checkIfWin()) {
         resultElement.innerHTML = `${currentPlayer.name} (${sign}) wins!`;
-      else if (checkIfTie()) resultElement.innerHTML = `It's a tie!`;
+        lineElement.style.display = "block";
+      } else if (checkIfTie()) resultElement.innerHTML = `It's a tie!`;
       else toggleCurrentPlayer();
     }
   };
