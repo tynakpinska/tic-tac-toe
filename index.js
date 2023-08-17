@@ -38,38 +38,6 @@ const Gameboard = (() => {
   };
 
   const checkIfWin = () => {
-    /*   if (
-      (gameboard[0] === gameboard[1] &&
-        gameboard[1] === gameboard[2] &&
-        gameboard[2] !== "") ||
-      (gameboard[3] === gameboard[4] &&
-        gameboard[4] === gameboard[5] &&
-        gameboard[5] !== "") ||
-      (gameboard[6] === gameboard[7] &&
-        gameboard[7] === gameboard[8] &&
-        gameboard[8] !== "") ||
-      (gameboard[0] === gameboard[3] &&
-        gameboard[3] === gameboard[6] &&
-        gameboard[6] !== "") ||
-      (gameboard[1] === gameboard[4] &&
-        gameboard[4] === gameboard[7] &&
-        gameboard[7] !== "") ||
-      (gameboard[2] === gameboard[5] &&
-        gameboard[5] === gameboard[8] &&
-        gameboard[8] !== "") ||
-      (gameboard[0] === gameboard[4] &&
-        gameboard[4] === gameboard[8] &&
-        gameboard[8] !== "") ||
-      (gameboard[2] === gameboard[4] &&
-        gameboard[4] === gameboard[6] &&
-        gameboard[6] !== "")
-    ) {
-      // add displaying line at accurate position
-      return true;
-    } else {
-      return false;
-    } */
-
     if (
       gameboard[0] === gameboard[1] &&
       gameboard[1] === gameboard[2] &&
