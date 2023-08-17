@@ -59,6 +59,8 @@ const Gameboard = (() => {
         gameboard[4] === gameboard[6] &&
         gameboard[6] !== "")
     ) {
+      lineElement.style.display = "block";
+      // add displaying line at accurate position
       return true;
     } else {
       return false;

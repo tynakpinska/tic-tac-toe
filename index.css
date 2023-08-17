@@ -36,9 +36,10 @@ p {
 }
 
 .line {
+  display: none;
   width: 300px;
   height: 5px;
-  background-color: #585858;
+  background-color: #727272;
   position: absolute;
   top: 50%;
 
