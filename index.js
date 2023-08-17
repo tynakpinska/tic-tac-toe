@@ -67,6 +67,11 @@ const Gameboard = (() => {
     }
   };
 
+  const checkIfTie = () => {
+    const isNotEmpty = box => box !== "";
+    return gameboard.every(isNotEmpty);
+  };
+
   const toggleCurrentPlayer = () => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
     playersElements[0].classList.toggle("current");
@@ -82,12 +87,12 @@ const Gameboard = (() => {
     if (gameboard[id] === "" && resultElement.innerHTML === "") {
       gameboard[id] = sign;
       fillGameboard();
-      checkIfWin()
-        ? (resultElement.innerHTML = `${sign} wins!`)
-        : toggleCurrentPlayer();
+      if (checkIfWin())
+        resultElement.innerHTML = `${currentPlayer.name} (${sign}) wins!`;
+      if (checkIfTie()) resultElement.innerHTML = `It's a tie!`;
+      toggleCurrentPlayer();
     }
     // draw a line
-    // check if tie
   };
 
   return {
