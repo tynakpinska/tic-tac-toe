@@ -92,3 +92,13 @@ button {
   font-weight: bold;
   margin-top: 20px;
 }
+
+@media (max-width: 430px) {
+  body {
+    padding: 10px;
+  }
+  .players {
+    display: flex;
+    flex-direction: column;
+  }
+}
