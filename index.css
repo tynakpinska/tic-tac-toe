@@ -41,6 +41,60 @@ p {
   position: absolute;
 }
 
+.visible {
+  display: block;
+}
+
+.horizontal {
+  width: 300px;
+  height: 5px;
+}
+
+.top {
+  top: 15%;
+}
+
+.center {
+  top: 50%;
+}
+
+.bottom {
+  top: 83%;
+}
+
+.vertical {
+  width: 5px;
+  height: 300px;
+}
+
+.left {
+  left: 15%;
+}
+
+.middle {
+  left: 50%;
+}
+
+.right {
+  left: 83%;
+}
+
+.skew {
+  width: 5px;
+  height: 350px;
+  top: -5%;
+}
+
+.from-left {
+  left: 52%;
+  transform: rotate(-45deg);
+}
+
+.from-right {
+  left: 47%;
+  transform: rotate(45deg);
+}
+
 .players {
   display: flex;
   flex-direction: row;

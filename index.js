@@ -10,8 +10,8 @@ const Player = (name, sign) => {
   return { name, sign, play };
 };
 
-let player1 = Player("Tyna", "X");
-let player2 = Player("Rek", "O");
+let player1 = Player("Player1", "X");
+let player2 = Player("Player2", "O");
 
 playersInputs[0].value = player1.name;
 playersInputs[1].value = player2.name;
@@ -31,7 +31,7 @@ const Gameboard = (() => {
     box.addEventListener("click", playing(id), true)
   );
 
-  const fillGameboard = () => {
+  const fillGameboardBoxes = () => {
     gameboard.forEach((box, id) => {
       boxElements[id].innerHTML = box;
     });
@@ -43,9 +43,7 @@ const Gameboard = (() => {
       gameboard[1] === gameboard[2] &&
       gameboard[2] !== ""
     ) {
-      lineElement.style.width = "300px";
-      lineElement.style.height = "5px";
-      lineElement.style.top = "15%";
+      lineElement.classList.add("horizontal", "top");
       return true;
     }
 
@@ -54,9 +52,7 @@ const Gameboard = (() => {
       gameboard[4] === gameboard[5] &&
       gameboard[5] !== ""
     ) {
-      lineElement.style.width = "300px";
-      lineElement.style.height = "5px";
-      lineElement.style.top = "50%";
+      lineElement.classList.add("horizontal", "center");
       return true;
     }
 
@@ -65,10 +61,7 @@ const Gameboard = (() => {
       gameboard[7] === gameboard[8] &&
       gameboard[8] !== ""
     ) {
-      console.log("to");
-      lineElement.style.width = "300px";
-      lineElement.style.height = "5px";
-      lineElement.style.top = "83%";
+      lineElement.classList.add("horizontal", "bottom");
       return true;
     }
 
@@ -77,9 +70,7 @@ const Gameboard = (() => {
       gameboard[3] === gameboard[6] &&
       gameboard[6] !== ""
     ) {
-      lineElement.style.width = "5px";
-      lineElement.style.height = "300px";
-      lineElement.style.left = "15%";
+      lineElement.classList.add("vertical", "left");
       return true;
     }
 
@@ -88,9 +79,7 @@ const Gameboard = (() => {
       gameboard[4] === gameboard[7] &&
       gameboard[7] !== ""
     ) {
-      lineElement.style.width = "5px";
-      lineElement.style.height = "300px";
-      lineElement.style.left = "50%";
+      lineElement.classList.add("vertical", "middle");
       return true;
     }
 
@@ -99,9 +88,7 @@ const Gameboard = (() => {
       gameboard[5] === gameboard[8] &&
       gameboard[8] !== ""
     ) {
-      lineElement.style.width = "5px";
-      lineElement.style.height = "300px";
-      lineElement.style.left = "83%";
+      lineElement.classList.add("vertical", "right");
       return true;
     }
 
@@ -110,11 +97,7 @@ const Gameboard = (() => {
       gameboard[4] === gameboard[8] &&
       gameboard[8] !== ""
     ) {
-      lineElement.style.width = "5px";
-      lineElement.style.height = "350px";
-      lineElement.style.top = "-5%";
-      lineElement.style.left = "52%";
-      lineElement.style.transform = "rotate(-45deg)";
+      lineElement.classList.add("skew", "from-left");
       return true;
     }
 
@@ -123,11 +106,7 @@ const Gameboard = (() => {
       gameboard[4] === gameboard[6] &&
       gameboard[6] !== ""
     ) {
-      lineElement.style.width = "5px";
-      lineElement.style.height = "350px";
-      lineElement.style.top = "-5%";
-      lineElement.style.left = "47%";
-      lineElement.style.transform = "rotate(45deg)";
+      lineElement.classList.add("skew", "from-right");
       return true;
     }
 
@@ -148,36 +127,36 @@ const Gameboard = (() => {
   const resetGameboard = () => {
     gameboard = ["", "", "", "", "", "", "", "", ""];
     resultElement.innerHTML = "";
-    lineElement.style.width = "0";
-    lineElement.style.height = "0";
-    lineElement.style.left = "0";
-    lineElement.style.top = "0";
-    lineElement.style.transform = "rotate(0)";
-    lineElement.style.display = "none";
+    lineElement.classList = "line";
   };
 
   const updateGameboardArray = (id, sign) => {
     if (gameboard[id] === "" && resultElement.innerHTML === "") {
       gameboard[id] = sign;
-      fillGameboard();
+      fillGameboardBoxes();
       if (checkIfWin()) {
+        lineElement.classList.add("visible");
         resultElement.innerHTML = `${currentPlayer.name} (${sign}) wins!`;
-        lineElement.style.display = "block";
-      } else if (checkIfTie()) resultElement.innerHTML = `It's a tie!`;
-      else toggleCurrentPlayer();
+        return;
+      }
+      if (checkIfTie()) {
+        resultElement.innerHTML = `It's a tie!`;
+        return;
+      }
+      toggleCurrentPlayer();
     }
   };
 
   return {
-    fillGameboard,
+    fillGameboardBoxes,
     updateGameboardArray,
     resetGameboard,
   };
 })();
 
-Gameboard.fillGameboard();
+Gameboard.fillGameboardBoxes();
 
 resetButtonElement.addEventListener("click", () => {
   Gameboard.resetGameboard();
-  Gameboard.fillGameboard();
+  Gameboard.fillGameboardBoxes();
 });
