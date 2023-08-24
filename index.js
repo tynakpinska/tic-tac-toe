@@ -27,87 +27,94 @@ const Gameboard = (() => {
   let gameboard = ["", "", "", "", "", "", "", "", ""];
   let currentPlayer = player1;
   let gameMode = "friend";
+
   playersElements[0].classList.add("current");
-  const playing = id => event => currentPlayer.play(id);
+
+  const playing = id => currentPlayer.play(id);
+
   boxElements.forEach((box, id) =>
-    box.addEventListener("click", playing(id), true)
+    box.addEventListener("click", e => {
+      if (gameboard[id] === "" && resultElement.innerHTML === "") playing(id);
+    })
   );
 
-  const fillGameboardBoxes = () => {
-    gameboard.forEach((box, id) => {
-      boxElements[id].innerHTML = box;
-    });
-  };
-
   const checkIfWin = () => {
-    if (
-      gameboard[0] === gameboard[1] &&
-      gameboard[1] === gameboard[2] &&
-      gameboard[2] !== ""
-    ) {
+    const winOptions = {
+      horizontal: {
+        top:
+          gameboard[0] === gameboard[1] &&
+          gameboard[1] === gameboard[2] &&
+          gameboard[2] !== "",
+        center:
+          gameboard[3] === gameboard[4] &&
+          gameboard[4] === gameboard[5] &&
+          gameboard[5] !== "",
+        bottom:
+          gameboard[6] === gameboard[7] &&
+          gameboard[7] === gameboard[8] &&
+          gameboard[8] !== "",
+      },
+      vertical: {
+        left:
+          gameboard[0] === gameboard[3] &&
+          gameboard[3] === gameboard[6] &&
+          gameboard[6] !== "",
+        middle:
+          gameboard[1] === gameboard[4] &&
+          gameboard[4] === gameboard[7] &&
+          gameboard[7] !== "",
+        right:
+          gameboard[2] === gameboard[5] &&
+          gameboard[5] === gameboard[8] &&
+          gameboard[8] !== "",
+      },
+      skew: {
+        fromLeft:
+          gameboard[0] === gameboard[4] &&
+          gameboard[4] === gameboard[8] &&
+          gameboard[8] !== "",
+        fromRight:
+          gameboard[2] === gameboard[4] &&
+          gameboard[4] === gameboard[6] &&
+          gameboard[6] !== "",
+      },
+    };
+    if (winOptions.horizontal.top) {
       lineElement.classList.add("horizontal", "top");
       return true;
     }
 
-    if (
-      gameboard[3] === gameboard[4] &&
-      gameboard[4] === gameboard[5] &&
-      gameboard[5] !== ""
-    ) {
+    if (winOptions.horizontal.center) {
       lineElement.classList.add("horizontal", "center");
       return true;
     }
 
-    if (
-      gameboard[6] === gameboard[7] &&
-      gameboard[7] === gameboard[8] &&
-      gameboard[8] !== ""
-    ) {
+    if (winOptions.horizontal.bottom) {
       lineElement.classList.add("horizontal", "bottom");
       return true;
     }
 
-    if (
-      gameboard[0] === gameboard[3] &&
-      gameboard[3] === gameboard[6] &&
-      gameboard[6] !== ""
-    ) {
+    if (winOptions.vertical.left) {
       lineElement.classList.add("vertical", "left");
       return true;
     }
 
-    if (
-      gameboard[1] === gameboard[4] &&
-      gameboard[4] === gameboard[7] &&
-      gameboard[7] !== ""
-    ) {
+    if (winOptions.vertical.middle) {
       lineElement.classList.add("vertical", "middle");
       return true;
     }
 
-    if (
-      gameboard[2] === gameboard[5] &&
-      gameboard[5] === gameboard[8] &&
-      gameboard[8] !== ""
-    ) {
+    if (winOptions.vertical.right) {
       lineElement.classList.add("vertical", "right");
       return true;
     }
 
-    if (
-      gameboard[0] === gameboard[4] &&
-      gameboard[4] === gameboard[8] &&
-      gameboard[8] !== ""
-    ) {
+    if (winOptions.skew.fromLeft) {
       lineElement.classList.add("skew", "from-left");
       return true;
     }
 
-    if (
-      gameboard[2] === gameboard[4] &&
-      gameboard[4] === gameboard[6] &&
-      gameboard[6] !== ""
-    ) {
+    if (winOptions.skew.fromRight) {
       lineElement.classList.add("skew", "from-right");
       return true;
     }
@@ -120,16 +127,30 @@ const Gameboard = (() => {
     return gameboard.every(isNotEmpty);
   };
 
+  const handleWin = sign => {
+    lineElement.classList.add("visible");
+    resultElement.innerHTML = `${currentPlayer.name} (${sign}) wins!`;
+  };
+
+  const handleTie = () => {
+    resultElement.innerHTML = `It's a tie!`;
+  };
+
+  const fillGameboardBoxes = () => {
+    gameboard.forEach((box, id) => {
+      boxElements[id].innerHTML = box;
+    });
+  };
+
   const toggleGameMode = () => {
     gameMode = gameMode === "computer" ? "friend" : "computer";
-    gameModeButtonElement.innerHTML = `Play with ${
-      gameMode === "computer" ? "friend" : "computer"
-    }`;
     if (gameMode === "computer") {
       player2.name = "Computer";
+      gameModeButtonElement.innerHTML = "Play with friend";
     }
     if (gameMode === "friend") {
       player2.name = "Player2";
+      gameModeButtonElement.innerHTML = "Play with computer";
     }
     playersInputs[1].value = player2.name;
   };
@@ -147,20 +168,11 @@ const Gameboard = (() => {
   };
 
   const updateGameboardArray = (id, sign) => {
-    if (gameboard[id] === "" && resultElement.innerHTML === "") {
-      gameboard[id] = sign;
-      fillGameboardBoxes();
-      if (checkIfWin()) {
-        lineElement.classList.add("visible");
-        resultElement.innerHTML = `${currentPlayer.name} (${sign}) wins!`;
-        return;
-      }
-      if (checkIfTie()) {
-        resultElement.innerHTML = `It's a tie!`;
-        return;
-      }
-      toggleCurrentPlayer();
-    }
+    gameboard[id] = sign;
+    fillGameboardBoxes();
+    if (checkIfWin()) handleWin(sign);
+    if (checkIfTie()) handleTie();
+    toggleCurrentPlayer();
   };
 
   return {
