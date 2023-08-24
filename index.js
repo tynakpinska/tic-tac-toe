@@ -1,6 +1,7 @@
 const boxElements = document.querySelectorAll(".box");
 const playersElements = document.querySelectorAll(".player");
 const playersInputs = document.querySelectorAll(".playerInput");
+const gameModeButtonElement = document.querySelector(".gameModeButton");
 const lineElement = document.querySelector(".line");
 const resultElement = document.querySelector(".result");
 const resetButtonElement = document.querySelector(".resetButton");
@@ -25,6 +26,7 @@ playersInputs.forEach((player, id) =>
 const Gameboard = (() => {
   let gameboard = ["", "", "", "", "", "", "", "", ""];
   let currentPlayer = player1;
+  let gameMode = "friend";
   playersElements[0].classList.add("current");
   const playing = id => event => currentPlayer.play(id);
   boxElements.forEach((box, id) =>
@@ -118,6 +120,20 @@ const Gameboard = (() => {
     return gameboard.every(isNotEmpty);
   };
 
+  const toggleGameMode = () => {
+    gameMode = gameMode === "computer" ? "friend" : "computer";
+    gameModeButtonElement.innerHTML = `Play with ${
+      gameMode === "computer" ? "friend" : "computer"
+    }`;
+    if (gameMode === "computer") {
+      player2.name = "Computer";
+    }
+    if (gameMode === "friend") {
+      player2.name = "Player2";
+    }
+    playersInputs[1].value = player2.name;
+  };
+
   const toggleCurrentPlayer = () => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
     playersElements[0].classList.toggle("current");
@@ -151,10 +167,13 @@ const Gameboard = (() => {
     fillGameboardBoxes,
     updateGameboardArray,
     resetGameboard,
+    toggleGameMode,
   };
 })();
 
 Gameboard.fillGameboardBoxes();
+
+gameModeButtonElement.addEventListener("click", Gameboard.toggleGameMode);
 
 resetButtonElement.addEventListener("click", () => {
   Gameboard.resetGameboard();
