@@ -17,8 +17,8 @@ let player2 = Player("Player2", "O");
 playersInputs[0].value = player1.name;
 playersInputs[1].value = player2.name;
 
-playersInputs.forEach((player, id) =>
-  player.addEventListener("change", e => {
+playersInputs.forEach((playerInput, id) =>
+  playerInput.addEventListener("change", e => {
     eval(`player${id + 1}`).name = e.target.value;
   })
 );
@@ -96,6 +96,7 @@ const Gameboard = (() => {
 
     if (winOptions.vertical.left) {
       lineElement.classList.add("vertical", "left");
+
       return true;
     }
 
@@ -136,6 +137,14 @@ const Gameboard = (() => {
     resultElement.innerHTML = `It's a tie!`;
   };
 
+  const generateComputerMove = () => {
+    let id;
+    while (gameboard[id] !== "") {
+      id = Math.floor(Math.random() * 8);
+    }
+    return id;
+  };
+
   const fillGameboardBoxes = () => {
     gameboard.forEach((box, id) => {
       boxElements[id].innerHTML = box;
@@ -163,6 +172,7 @@ const Gameboard = (() => {
 
   const resetGameboard = () => {
     gameboard = ["", "", "", "", "", "", "", "", ""];
+    currentPlayer = player1;
     resultElement.innerHTML = "";
     lineElement.classList = "line";
   };
@@ -170,9 +180,13 @@ const Gameboard = (() => {
   const updateGameboardArray = (id, sign) => {
     gameboard[id] = sign;
     fillGameboardBoxes();
-    if (checkIfWin()) handleWin(sign);
-    if (checkIfTie()) handleTie();
+    if (checkIfWin()) return handleWin(sign);
+    if (checkIfTie()) return handleTie();
     toggleCurrentPlayer();
+    if (currentPlayer.name === "Computer") {
+      const id = generateComputerMove();
+      if (gameboard[id] === "" && resultElement.innerHTML === "") playing(id);
+    }
   };
 
   return {
