@@ -184,8 +184,10 @@ const Gameboard = (() => {
     if (checkIfTie()) return handleTie();
     toggleCurrentPlayer();
     if (currentPlayer.name === "Computer") {
-      const id = generateComputerMove();
-      if (gameboard[id] === "" && resultElement.innerHTML === "") playing(id);
+      setTimeout(() => {
+        const id = generateComputerMove();
+        if (gameboard[id] === "" && resultElement.innerHTML === "") playing(id);
+      }, 1000);
     }
   };
 
