@@ -162,6 +162,12 @@ const Gameboard = (() => {
       gameModeButtonElement.innerHTML = "Play with computer";
     }
     playersInputs[1].value = player2.name;
+    if (!Array.from(playersElements[0].classList).includes("current")) {
+      playersElements[0].classList.toggle("current");
+      playersElements[1].classList.toggle("current");
+    }
+    resetGameboard();
+    fillGameboardBoxes();
   };
 
   const toggleCurrentPlayer = () => {
